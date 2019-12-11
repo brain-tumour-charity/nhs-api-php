@@ -20,17 +20,11 @@ NHSAPI\NHSAPIServiceProvider::class
 ```
 
 Copy the package config to your local config with the publish command:
-
-```shell
-php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
-```
-
-Publish config file
 ```shell
 php artisan vendor:publish --tag=nhs_api
 ```
 
-
+Copy  the list of condition endpoints csv with the publish command:
 Publish the list of condition endpoints csv
 ```shell
 php artisan vendor:publish --tag=nhs_api_conditions
