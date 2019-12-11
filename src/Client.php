@@ -32,14 +32,7 @@ class Client {
   /**
    * @var Subscriptions
    */
-  protected $businesses;
-  protected $appointment_types;
-  protected $practitioners;
-  protected $avail_times;
-  protected $appointments;
-  protected $patients;
-  protected $billable_items;
-  protected $taxes;
+  protected $conditions;
 
   /**
    * Instantiate a new Client
