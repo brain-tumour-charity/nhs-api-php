@@ -18,7 +18,7 @@ class Conditions
      */
     public function all($filters = [])
     {
-        return $this->client->get('/conditions', ['query' => implode('&', $filters)]);
+        return $this->client->get('/conditions', ['query' => $filters]);
     }
 
     /**
