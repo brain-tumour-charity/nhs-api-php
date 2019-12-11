@@ -19,13 +19,12 @@ NHSAPI\NHSAPIServiceProvider::class
 'NHSAPI'  => NHSAPI\Facades\NHSAPI::class
 ```
 
-Copy the package config to your local config with the publish command:
+Copy the package config to your local config
 ```shell
 php artisan vendor:publish --tag=nhs_api
 ```
 
-Copy  the list of condition endpoints csv with the publish command:
-Publish the list of condition endpoints csv
+Copy the list of condition endpoints to your storage folder
 ```shell
 php artisan vendor:publish --tag=nhs_api_conditions
 ```
