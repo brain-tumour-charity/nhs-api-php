@@ -23,7 +23,7 @@ class Conditions
 
     /**
      * Get specific condition or a sub page of that condition
-     *
+     * !(11/12/2019) Sub page functionality currently does not work
      * @return Array
      */
     public function condition($condition = '', $sub_page = '')
