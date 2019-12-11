@@ -161,6 +161,8 @@ class Client {
      */
     public function conditions()
     {
+        if ($key = config('nhs_api.conditions_key') && $this->getSubscriptionKey() != $key) $this->setSubscriptionKey($key);
+
         return $this->conditions;
     }
 }
