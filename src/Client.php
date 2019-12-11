@@ -91,11 +91,8 @@ class Client {
   {
     // add headers
     $payload['headers'] = [
-        'Accept'  => 'application/json'
-    ];
-
-    $payload['auth'] = [
-        $this->getSubscriptionKey(), ''
+        'Accept'           => 'application/json',
+        'subscription-key' => $this->getSubscriptionKey()
     ];
 
     $payload['http_errors'] = false;
