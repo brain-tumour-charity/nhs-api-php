@@ -13,7 +13,8 @@ class NHSAPIServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $this->publishes([__DIR__ . '/config/config.php' => config_path('nhs_api.php')], 'nhs_api');
+        $this->publishes([__DIR__ . '/config/config.php'   => config_path('nhs_api.php')], 'nhs_api');
+        $this->publishes([__DIR__ . '/storage/conditions.csv' => storage_path('conditions.csv')], 'nhs_api_conditions');
     }
 
     /**
@@ -39,7 +40,7 @@ class NHSAPIServiceProvider extends ServiceProvider {
     */
     public function provides()
     {
-    return ['brain-tumour-charity.nhs-api-php'];
+        return ['brain-tumour-charity.nhs-api-php'];
     }
 
 }
