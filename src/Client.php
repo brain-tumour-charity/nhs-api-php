@@ -3,6 +3,7 @@
 use Exception;
 
 use GuzzleHttp\Client as Guzzle;
+use Cache;
 use NHSAPI\Subscriptions\Conditions;
 use NHSAPI\Exception\ApiException;
 
@@ -30,6 +31,13 @@ class Client {
     protected $guzzle;
 
     /**
+     * The default cache expiry time
+     *
+     * @var int
+     */
+    protected $cache_expiry;
+
+    /**
      * @var Subscriptions
      */
     protected $conditions;
@@ -40,9 +48,10 @@ class Client {
      * @param array $attributes
      * @return void
      */
-    public function __construct($subscription_key = null, Guzzle $guzzle = null)
+    public function __construct($subscription_key = null, $cache_expiry = null, Guzzle $guzzle = null)
     {
         if (isset($subscription_key)) $this->setSubscriptionKey($subscription_key);
+        if (isset($cache_expiry)) $this->setCacheExpiry($cache_expiry);
 
         $this->guzzle     = $guzzle ?: new Guzzle;
         $this->conditions = new Conditions($this);
@@ -80,6 +89,27 @@ class Client {
     }
 
     /**
+     * Set the cache expiry
+     *
+     * @param int $subscription_key
+     * @return void
+     */
+    public function setCacheExpiry($cache_expiry)
+    {
+        $this->cache_expiry = $cache_expiry;
+    }
+
+    /**
+     * Get the cache expiry
+     *
+     * @return int
+     */
+    public function getCacheExpiry()
+    {
+        return $this->cache_expiry;
+    }
+
+    /**
      * Make a API request
      *
      * @param $url The endpoint to call
@@ -97,27 +127,30 @@ class Client {
 
         $payload['http_errors'] = false;
 
-        // make the request
-        $response = $this->guzzle->request($method, $this->endpoint . $url, $payload);
+        // make the request and cache the results
+        $combo = $method . '-' . $url . (isset($payload['query']) ? '-' . implode('&', $payload['query']) : '');
+        return Cache::remember($combo, $this->cache_expiry, function() use($method, $url, $payload) {
+            $response = $this->guzzle->request($method, $this->endpoint . $url, $payload);
 
-        if ($response->getStatusCode() == '200' || $response->getStatusCode() == '201') {
-            $content = $response->getBody()->getContents();
-            if ( empty( $content ) ) {
-                return true;
-            }
-            return json_decode($content);
-        } else if ($response->getStatusCode() == '404') {
-            throw new ApiException('Client Error: 404 Not Found', 404);
-        } else {
-            $content = $response->getBody()->getContents();
-            $errors = json_decode($content);
-
-            if ( $errors !== null && isset( $errors->message ) ) {
-                throw new ApiException('Client Error: ' . $content, $response->getStatusCode(), isset( $errors ) ? $errors->message : null);
+            if ($response->getStatusCode() == '200' || $response->getStatusCode() == '201') {
+                $content = $response->getBody()->getContents();
+                if ( empty( $content ) ) {
+                    return true;
+                }
+                return json_decode($content);
+            } else if ($response->getStatusCode() == '404') {
+                throw new ApiException('Client Error: 404 Not Found', 404);
             } else {
-                throw new ApiException('Client Error: ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), $response->getStatusCode(), isset( $errors ) ? $errors->errors : null);
+                $content = $response->getBody()->getContents();
+                $errors = json_decode($content);
+    
+                if ( $errors !== null && isset( $errors->message ) ) {
+                    throw new ApiException('Client Error: ' . $content, $response->getStatusCode(), isset( $errors ) ? $errors->message : null);
+                } else {
+                    throw new ApiException('Client Error: ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), $response->getStatusCode(), isset( $errors ) ? $errors->errors : null);
+                }
             }
-        }
+        });
     }
 
     /**
