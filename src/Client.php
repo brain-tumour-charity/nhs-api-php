@@ -41,6 +41,7 @@ class Client {
      * @var Subscriptions
      */
     protected $conditions;
+    protected $medicines;
 
     /**
      * Instantiate a new Client
@@ -197,5 +198,15 @@ class Client {
         $key = config('nhs_api.conditions_key');
         if ($key && $this->getSubscriptionKey() != $key) $this->setSubscriptionKey($key);
         return $this->conditions;
+    }
+
+    /**
+     * @return Medicines
+     */
+    public function medicines()
+    {
+        $key = config('nhs_api.medicines_key');
+        if ($key && $this->getSubscriptionKey() != $key) $this->setSubscriptionKey($key);
+        return $this->medicines;
     }
 }
