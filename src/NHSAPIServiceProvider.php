@@ -15,6 +15,7 @@ class NHSAPIServiceProvider extends ServiceProvider {
     {
         $this->publishes([__DIR__ . '/config/config.php'      => config_path('nhs_api.php')], 'nhs_api');
         $this->publishes([__DIR__ . '/storage/conditions.csv' => storage_path('conditions.csv')], 'nhs_api_conditions');
+        $this->publishes([__DIR__ . '/storage/medicines.csv' => storage_path('medicines.csv')], 'nhs_api_medicines');
     }
 
     /**
