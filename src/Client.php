@@ -57,7 +57,7 @@ class Client {
 
         $this->guzzle     = $guzzle ?: new Guzzle;
         $this->conditions = new Conditions($this);
-        $this->conditions = new Medicines($this);
+        $this->medicines  = new Medicines($this);
     }
 
     /**
