@@ -28,3 +28,8 @@ Copy the list of condition endpoints to your storage folder
 ```shell
 php artisan vendor:publish --tag=nhs_api_conditions
 ```
+
+Copy the list of medicine endpoints to your storage folder
+```shell
+php artisan vendor:publish --tag=nhs_api_medicines
+```
