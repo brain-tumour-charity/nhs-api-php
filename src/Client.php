@@ -5,6 +5,7 @@ use Exception;
 use GuzzleHttp\Client as Guzzle;
 use Cache;
 use NHSAPI\Subscriptions\Conditions;
+use NHSAPI\Subscriptions\Medicines;
 use NHSAPI\Exception\ApiException;
 
 class Client {
@@ -56,6 +57,7 @@ class Client {
 
         $this->guzzle     = $guzzle ?: new Guzzle;
         $this->conditions = new Conditions($this);
+        $this->conditions = new Medicines($this);
     }
 
     /**
