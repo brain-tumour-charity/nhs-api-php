@@ -29,6 +29,6 @@ class Conditions
     public function condition($condition = '', $sub_page = '')
     {
         $url = $condition . ($sub_page != '' ? '/' : '') . $sub_page;
-        return $this->client->get('/conditions/' . $url);
+        return $this->client->get('/' . $url);
     }
 }
