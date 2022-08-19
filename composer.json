@@ -13,15 +13,18 @@
     ],
     "minimum-stability": "dev",
     "keywords": [
-        "php", "laravel", "nhs", "api",
-        "conditions", "medications"
+        "php",
+        "laravel",
+        "nhs",
+        "api",
+        "conditions",
+        "medications"
     ],
     "require": {
-        "php": ">=7.1",
-        "laravel/framework": "^6.0"
+        "php": ">=7.1"
     },
     "autoload": {
-        "psr-4" : {
+        "psr-4": {
             "NHSAPI\\": "src"
         }
     }
